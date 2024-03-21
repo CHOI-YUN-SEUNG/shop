@@ -54,7 +54,7 @@ public class UserManager {
 		}
 		return new User();
 	}
-	
+
 	public User findUserByUserPW(String passWord) {
 		for (User user : userlist) {
 			if (user.getPassWord().equals(passWord))
@@ -63,26 +63,25 @@ public class UserManager {
 		return new User();
 	}
 
-	public int getUserSize() {
-		return userlist.size();
-	}
-
-	
-	public void updateUserCart() {
+	public void updateUserCart() {// 임시
 
 	}
-	
+
 	public boolean deleteUser(User user) {
 		int userCode = user.getUserCode();
 		User targetUser = getUserByUserCode(userCode);
 		return userlist.remove(targetUser);
 	}
-	
-	private User getUserByUserCode(int code) {//원본 수정
+
+	private User getUserByUserCode(int code) {// 원본 수정
 		for (User user : userlist) {
 			if (user.getUserCode() == code)
 				return user;
 		}
 		return new User();
-	}	
+	}
+
+	public int getUserSize() {
+		return userlist.size();
+	}
 }

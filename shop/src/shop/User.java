@@ -7,15 +7,19 @@ public class User {
 	private String name;
 	private Cart cart;
 
-	User(String id, String passWord, String name) {
+	public User() {
+		
+	}
+	
+	public User(int userCode,String id, String passWord, String name) {
+		this.userCode = userCode;
 		this.id = id;
 		this.passWord = passWord;
 		this.name = name;
 	}
 
 	public User clone() {
-		User user = new User(this.id, this.passWord, this.name);
-		user.setUserCode(this.userCode);
+		User user = new User(this.userCode,this.id, this.passWord, this.name);
 		return user;
 	}
 

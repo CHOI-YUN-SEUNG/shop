@@ -6,16 +6,18 @@ public class Item {
 	private String itemName;
 	private int price;
 
-	Item(String itemName, int itemCount, int price) {
+	Item(){
+		
+	}
+	
+	public Item(int itemCode, String itemName, int itemCount, int price) {
 		this.itemName = itemName;
 		this.itemCount = itemCount;
 		this.price = price;
-
 	}
 
 	public Item clone() {
-		Item item = new Item(this.itemName, this.itemCount, this.price);
-		item.setItemCode(this.itemCode);
+		Item item = new Item(this.itemCode,this.itemName, this.itemCount, this.price);
 		return item;
 	}
 

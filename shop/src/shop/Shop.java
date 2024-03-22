@@ -7,7 +7,10 @@ public class Shop {
 	private ItemManager itemManager = ItemManager.getInstance();
 	private FileManager fileManager = FileManager.getInstance();
 	private Scanner scanner = new Scanner(System.in);
+
 	private int log = -1;
+	private final int ADMIN = 0;
+
 	private final int JOIN = 1;
 	private final int LEAVE = 2;
 	private final int LOG_IN = 3;
@@ -17,8 +20,12 @@ public class Shop {
 	private final int BACK = 0;
 
 	private final int TYPE_OUT = 1;
-	private final int TYPE_USER = 2;
-	private final int TYPE_ADMIN = 3;
+	private final int TYPE_IN = 2;
+
+	private final int ITEM_ENROLL = 1;
+	private final int ITEM_REMOVE = 2;
+	private final int ITEM_UPDATE = 3;
+	private final int ITEM_TOTAL_SALED = 4;
 
 	public void run() {
 		while (true) {
@@ -63,7 +70,7 @@ public class Shop {
 				result = true;
 			else
 				System.err.println("로그아웃 후 이용가능합니다.");
-		} else if (typeCode == TYPE_USER) {
+		} else if (typeCode == TYPE_IN) {
 			if (log != -1)
 				result = true;
 			else
@@ -74,6 +81,13 @@ public class Shop {
 	}
 
 	private void printMenu() {
+		if (log == ADMIN)
+			printAdminMenu();
+		else
+			printUserMenu();
+	}
+
+	private void printUserMenu() {
 		System.out.println("================");
 		System.out.println("[1] 회원가입");
 		System.out.println("[2] 회원탈퇴");
@@ -105,19 +119,65 @@ public class Shop {
 	}
 
 	private void processMenu(int select) {
+		if (log == ADMIN)
+			processAdminMenu(select);
+		else
+			processUserMenu(select);
+	}
+
+	private void processUserMenu(int select) {
 		if (select == JOIN && checkLog(TYPE_OUT)) {
 			join();
-		} else if (select == LEAVE && checkLog(TYPE_USER)) {
+		} else if (select == LEAVE && checkLog(TYPE_IN)) {
 			leave();
 		} else if (select == LOG_IN && checkLog(TYPE_OUT)) {
 			login();
-		} else if (select == LOG_OUT && checkLog(TYPE_USER)) {
+		} else if (select == LOG_OUT && checkLog(TYPE_IN)) {
 			logout();
-		} else if (select == SHOPPING && checkLog(TYPE_USER)) {
+		} else if (select == SHOPPING && checkLog(TYPE_IN)) {
 			shopping();
-		} else if (select == MYPAGE && checkLog(TYPE_USER)) {
+		} else if (select == MYPAGE && checkLog(TYPE_IN)) {
 			mypage();
 		}
+	}
+
+	private void processAdminMenu(int select) {
+		if (select == ITEM_ENROLL) {// 아이템 등록
+			itemEnroll();
+		} else if (select == ITEM_REMOVE) {// 아이템 삭제
+			itemRemove();
+		} else if (select == ITEM_UPDATE) {// 아이템 수정
+			itemUpdate();
+		} else if (select == ITEM_TOTAL_SALED) {// 총 매출 확인
+			itemTotalSaled();
+		} else if (select == BACK) {
+			logout();
+		}
+	}
+
+	private void itemEnroll() {
+		String name = inputString("상품명");
+		int count = inputNumber("상품갯수");
+		int price = inputNumber("상품가격");
+		Item item = itemManager.createItem(name, count, price);
+		System.out.printf("상품이 등록 되었습니다. 아이템 코드는 %d입니다.", item.getItemCode());
+	}
+
+	private void itemRemove() {
+
+	}
+
+	private void itemUpdate() {
+		String id = inputString("ID");
+		String password = inputString("P/W");
+		String name = inputString("이름");
+		User user = userManager.createUser(id, password, name);
+		printJoinMessage(user);
+
+	}
+
+	private void itemTotalSaled() {
+
 	}
 
 	private void join() {
@@ -147,7 +207,7 @@ public class Shop {
 			User temp = userManager.findUserByIndex(i);
 			if (temp.getId().equals(id) && temp.getPassWord().equals(password)) {
 				log = i;
-				System.out.println(temp.getName() +"님 로그인 되었습니다.");
+				System.out.println(temp.getName() + "님 로그인 되었습니다.");
 				break;
 			}
 		}

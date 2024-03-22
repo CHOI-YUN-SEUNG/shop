@@ -7,8 +7,7 @@ public class Shop {
 	private ItemManager itemManager = ItemManager.getInstance();
 	private FileManager fileManager = FileManager.getInstance();
 	private Scanner scanner = new Scanner(System.in);
-	private int log;
-
+	private int log = -1;
 	private final int JOIN = 1;
 	private final int LEAVE = 2;
 	private final int LOG_IN = 3;
@@ -21,10 +20,6 @@ public class Shop {
 	private final int TYPE_USER = 2;
 	private final int TYPE_ADMIN = 3;
 
-	public Shop() {
-		this.log = -1;
-	}
-
 	public void run() {
 		while (true) {
 			printStatusForCheck();
@@ -34,15 +29,13 @@ public class Shop {
 		}
 	}
 
-	
 	private void printStatusForCheck() {
 		int userSize = userManager.getUserSize();
 		int itemSize = itemManager.getitemListSize();
 		String status = String.format("Users : %d\nItems: %d", userSize, itemSize);
 		System.out.println(status);
 	}
-	
-	
+
 	private int inputNumber(String message) {
 		int number = -1;
 		while (number < 0) {
@@ -76,6 +69,7 @@ public class Shop {
 			else
 				System.err.println("로그인 후 이용가능합니다");
 		}
+
 		return result;
 	}
 
@@ -144,13 +138,26 @@ public class Shop {
 	private void leave() {
 
 	}
- 
-	private void login() {
 
+	private void login() {
+		String id = inputString("ID");
+		String password = inputString("password");
+
+		for (int i = 0; i < userManager.getUserSize(); i++) {
+			User temp = userManager.findUserByIndex(i);
+			if (temp.getId().equals(id) && temp.getPassWord().equals(password)) {
+				log = i;
+				System.out.println(temp.getName() +"님 로그인 되었습니다.");
+				break;
+			}
+		}
+		if (log == -1)
+			System.err.println("회원정보를 다시 확인하세요.");
 	}
 
 	private void logout() {
-
+		log = -1;
+		System.out.println("로그아웃 완료");
 	}
 
 	private void shopping() {

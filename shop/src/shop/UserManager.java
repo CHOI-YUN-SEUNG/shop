@@ -16,12 +16,20 @@ public class UserManager {
 	}
 
 	public User createUser(String id, String passWord, String name) {
-		if (findUserByUserID(id) != null) {
+		if (checkId(id)) {
 			User user = new User(id, passWord, name);
 			userlist.add(user);
 			return user.clone();
 		}
 		return new User();
+	}
+
+	private boolean checkId(String id) {
+		for (User user : userlist) {
+			if (user.getId().equals(id))
+				return false;
+		}
+		return true;
 	}
 
 	public User findUserByUserID(String id) {

@@ -7,7 +7,7 @@ public class Shop {
 	private ItemManager itemManager = ItemManager.getInstance();
 	private FileManager fileManager = FileManager.getInstance();
 	private Scanner scanner = new Scanner(System.in);
-	
+
 	private int total;
 	private int log = -1;
 	private final int ADMIN = 0;
@@ -176,7 +176,14 @@ public class Shop {
 	}
 
 	private void itemRemove() {
-
+		int code = inputNumber("삭제할 상품코드");
+		Item item = itemManager.findItemByCode(code);
+		if (item.getItemName() != null) {
+			System.out.printf("현재 상품명은 %s입니다.\n", item.getItemName());
+			itemManager.deleteItem(item);
+			System.out.println("삭제완료");
+		} else
+			System.out.println("해당 상품은 존재하지 않습니다.");
 	}
 
 	private void itemUpdate() {
@@ -200,19 +207,20 @@ public class Shop {
 			System.out.printf("현재 상품명은 %s입니다.\n", item.getItemName());
 			String name = inputString("변경할 상품명");
 			itemManager.updateItemName(item, name);
+			System.out.println("변경완료");
 		} else
-			System.out.println("해당 상품은 존재 하지 않습니다.");
+			System.out.println("해당 상품은 존재하지 않습니다.");
 	}
 
 	private void itemUpdateCount() {
 		int code = inputNumber("상품번호");
 		Item item = itemManager.findItemByCode(code);
 		if (item.getItemCount() != 0) {
-			System.out.printf("현재 상품의 개수는 %ㅇ입니다.\n", item.getItemCount());
+			System.out.printf("현재 상품의 개수는 %d입니다.\n", item.getItemCount());
 			int count = inputNumber("변경할 상품 개수");
 			itemManager.updateItemCount(item, count);
 		} else
-			System.out.println("해당 상품은 존재 하지 않습니다.");
+			System.out.println("해당 상품은 존재하지 않습니다.");
 	}
 
 	private void itemTotalSaled() {

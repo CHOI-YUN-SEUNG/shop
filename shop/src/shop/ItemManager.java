@@ -17,8 +17,6 @@ public class ItemManager {
 		return instance;
 	}
 
-	// item crud
-
 	public Item createItem(String itemName, int itemCount, int price) {
 		int code = generateCode();
 		Item item = new Item(code, itemName, itemCount, price);
@@ -45,6 +43,34 @@ public class ItemManager {
 		return new Item();
 	}
 
+
+	public void updateItemCount(Item item, int count) {
+		int code = item.getItemCode();
+		Item targetItem = getItemByCode(code);
+		targetItem.setItemCount(count);
+	}
+	
+	
+	public void updateItemName(Item item, String name) {
+		int code = item.getItemCode();
+		Item targetItem = getItemByCode(code);
+		targetItem.setItemName(name);
+	}
+	
+	public boolean deleteItem(Item item) {
+		int code = item.getItemCode();
+		Item targetItem = getItemByCode(code);
+		return itemList.remove(targetItem);
+	}
+
+	private Item getItemByCode(int code) {// 원본 수정
+		for (Item item : itemList) {
+			if (item.getItemCode() == code)
+				return item;
+		}
+		return new Item();
+	}
+	
 	public int getitemListSize() {
 		return itemList.size();
 	}

@@ -1,45 +1,163 @@
 package shop;
 
-import java.util.Random;
+import java.util.Scanner;
 
 public class Shop {
 	private UserManager userManager = UserManager.getInstance();
-	private ItemManager itemManger = ItemManager.getInstance();
+	private ItemManager itemManager = ItemManager.getInstance();
+	private FileManager fileManager = FileManager.getInstance();
+	private Scanner scanner = new Scanner(System.in);
+	private int log;
 
-	// 유저 -
-	// ㄴ 회원가입 [X]
-	// ㄴ 탈퇴 [X]
-	// ㄴ 로그인 [X]
-	// ㄴ 로그아웃 [X]
-	// ㄴ 쇼핑하기 [X]
-	// ㄴ 마이페이지
-	// ㄴ 내장바구니 [X]
-	// ㄴ 항목삭제 [X]
-	// ㄴ 수량수정 [X]
-	// ㄴ 결제 [X]
-	// 파일
-	// ㄴ 자동저장 [X]
-	// ㄴ 자동로드 [X]
-	// 관리자 -
-	// ㄴ 아이템
-	// ㄴ 등록 [X]
-	// ㄴ 삭제 [X]
-	// ㄴ 수정 [X]
-	// ㄴ 조회(총 매출) [X]
+	private final int JOIN = 1;
+	private final int LEAVE = 2;
+	private final int LOG_IN = 3;
+	private final int LOG_OUT = 4;
+	private final int SHOPPING = 5;
+	private final int MYPAGE = 6;
+	private final int BACK = 0;
 
-	// 유저
-	// 회원가입/탈퇴
-	// 로그인/로그아웃
-	// 쇼핑하기
-	// 마이프로젝트(내장바구니,항목삭제,수량수정,결제(영수증 출력))//있던 아이템을 털고, 개수 빼기 처리하고 매출액+?//결제할때
-	// 판매여부(갯수차이) 다시 따져보면 되곘다.
-	// 저동저장/로드// 유저정보, 아이템 정보,관리자정보
+	private final int TYPE_OUT = 1;
+	private final int TYPE_USER = 2;
+	private final int TYPE_ADMIN = 3;
 
-	// 관리자 //code를 하나 따로 관리자라고 지정 shop에 넣지 뭐?
-	// 아이템 등록,삭제,수정
-	// 조회(총 매출)
+	public Shop() {
+		this.log = -1;
+	}
 
 	public void run() {
+		while (true) {
+			printStatusForCheck();
+			printMenu();
+			int select = inputNumber("[MENU]");
+			processMenu(select);
+		}
+	}
+
+	
+	private void printStatusForCheck() {
+		int userSize = userManager.getUserSize();
+		int itemSize = itemManager.getitemListSize();
+		String status = String.format("Users : %d\nItems: %d", userSize, itemSize);
+		System.out.println(status);
+	}
+	
+	
+	private int inputNumber(String message) {
+		int number = -1;
+		while (number < 0) {
+			try {
+				System.out.print(message + " : ");
+				String input = scanner.nextLine();
+				number = Integer.parseInt(input);
+			} catch (NumberFormatException e) {
+				System.err.println("숫자를 입력해주시길 바랍니다.");
+			}
+		}
+		return number;
+	}
+
+	private String inputString(String message) {
+		System.out.print(message + ": ");
+		String input = scanner.nextLine();
+		return input;
+	}
+
+	private boolean checkLog(int typeCode) {
+		boolean result = false;
+		if (typeCode == TYPE_OUT) {
+			if (log == -1)
+				result = true;
+			else
+				System.err.println("로그아웃 후 이용가능합니다.");
+		} else if (typeCode == TYPE_USER) {
+			if (log != -1)
+				result = true;
+			else
+				System.err.println("로그인 후 이용가능합니다");
+		}
+		return result;
+	}
+
+	private void printMenu() {
+		System.out.println("================");
+		System.out.println("[1] 회원가입");
+		System.out.println("[2] 회원탈퇴");
+		System.out.println("[3] 로그인");
+		System.out.println("[4] 로그아웃");
+		System.out.println("[5] 쇼핑하기");
+		System.out.println("[6] 마이페이지");
+		System.out.println("================");
+	}
+
+	private void printMapageMenu() {
+		System.out.println("================");
+		System.out.println("[내 장바구니");
+		System.out.println("[1] 항목 삭제");
+		System.out.println("[2] 수량 수정");
+		System.out.println("[3] 결제");
+		System.out.println("[0] 뒤로 가기");
+		System.out.println("================");
+	}
+
+	private void printAdminMenu() {
+		System.out.println("================");
+		System.out.println("[1] 아이템 등록");
+		System.out.println("[2] 아이템 삭제");
+		System.out.println("[3] 아이템 수정");
+		System.out.println("[4] 총 매출 확인");
+		System.out.println("[0] 로그아웃");
+		System.out.println("================");
+	}
+
+	private void processMenu(int select) {
+		if (select == JOIN && checkLog(TYPE_OUT)) {
+			join();
+		} else if (select == LEAVE && checkLog(TYPE_USER)) {
+			leave();
+		} else if (select == LOG_IN && checkLog(TYPE_OUT)) {
+			login();
+		} else if (select == LOG_OUT && checkLog(TYPE_USER)) {
+			logout();
+		} else if (select == SHOPPING && checkLog(TYPE_USER)) {
+			shopping();
+		} else if (select == MYPAGE && checkLog(TYPE_USER)) {
+			mypage();
+		}
+	}
+
+	private void join() {
+		String id = inputString("ID");
+		String password = inputString("P/W");
+		String name = inputString("이름");
+		User user = userManager.createUser(id, password, name);
+		printJoinMessage(user);
+	}
+
+	private void printJoinMessage(User user) {
+		if (user.getId() != null)
+			System.out.printf("%s(%s) 회원님 환영합니다.\n", user.getId(), user.getName());
+		else
+			System.out.println("회원가입 실패. 중복된 아이디입니다");
+	}
+
+	private void leave() {
+
+	}
+
+	private void login() {
+
+	}
+
+	private void logout() {
+
+	}
+
+	private void shopping() {
+
+	}
+
+	private void mypage() {
 
 	}
 }

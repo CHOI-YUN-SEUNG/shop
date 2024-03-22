@@ -49,4 +49,10 @@ public class Item {
 	public int getPrice() {
 		return price;
 	}
+
+	@Override
+	public String toString() {
+		String info = String.format("[%d] %s: %d원 (남은 수량 %d)",itemCode,itemName,price, itemCount);
+		return info;
+	}
 }

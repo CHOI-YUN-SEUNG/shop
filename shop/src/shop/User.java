@@ -42,4 +42,10 @@ public class User {
 	public String getId() {
 		return id;
 	}
+	
+	@Override
+	public String toString() {
+		String info = String.format("");
+		return info;
+	}
 }

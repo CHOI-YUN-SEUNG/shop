@@ -69,6 +69,13 @@ public class ItemManager {
 		return new Item();
 	}
 
+	public ArrayList<Item> getItemList() {
+		ArrayList<Item> temp = new ArrayList<>();
+		for (Item item : itemList)
+			temp.add(item.clone());
+		return temp;
+	}
+
 	public int getitemListSize() {
 		return itemList.size();
 	}

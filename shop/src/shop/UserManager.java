@@ -2,7 +2,6 @@ package shop;
 
 import java.util.ArrayList;
 
-
 public class UserManager {
 	private ArrayList<User> userList;
 
@@ -71,6 +70,13 @@ public class UserManager {
 
 	public int getUserSize() {
 		return userList.size();
+	}
+
+	public ArrayList<User> getUserList() {
+		ArrayList<User> temp = new ArrayList<>();
+		for (User user : userList)
+			temp.add(user.clone());
+		return temp;
 	}
 
 	public User findUserByIndex(int index) {

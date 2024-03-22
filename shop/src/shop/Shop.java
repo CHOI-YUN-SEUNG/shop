@@ -32,6 +32,7 @@ public class Shop {
 	private final int ITEM_UPDATE_COUNT = 2;
 
 	public void run() {
+
 		while (true) {
 			printStatusForCheck();
 			printMenu();
@@ -102,9 +103,15 @@ public class Shop {
 		System.out.println("================");
 	}
 
+	private void printShoppingMenu() {
+		System.out.println("================");
+		System.out.println("[1] 구매");
+		System.out.println("[0] 뒤로 가기");
+		System.out.println("================");
+	}
+
 	private void printMapageMenu() {
 		System.out.println("================");
-		System.out.println("[내 장바구니");
 		System.out.println("[1] 항목 삭제");
 		System.out.println("[2] 수량 수정");
 		System.out.println("[3] 결제");
@@ -224,7 +231,7 @@ public class Shop {
 	}
 
 	private void itemTotalSaled() {
-
+		System.out.println("총 매출액은" + total + "원 입니다.");
 	}
 
 	private void join() {
@@ -268,7 +275,10 @@ public class Shop {
 	}
 
 	private void shopping() {
-
+		for (int i = 0; i < itemManager.getitemListSize(); i++) {
+			System.out.println(itemManager.getItemList().get(i));
+		}
+		printShoppingMenu();
 	}
 
 	private void mypage() {

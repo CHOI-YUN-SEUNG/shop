@@ -1,7 +1,6 @@
 package shop;
 
 public class User {
-	private int userCode;
 	private String id;
 	private String passWord;
 	private String name;
@@ -11,21 +10,18 @@ public class User {
 		
 	}
 	
-	public User(int userCode,String id, String passWord, String name) {
-		this.userCode = userCode;
+	public User(String id, String passWord, String name) {
 		this.id = id;
 		this.passWord = passWord;
 		this.name = name;
 	}
 
 	public User clone() {
-		User user = new User(this.userCode,this.id, this.passWord, this.name);
+		User user = new User(this.id, this.passWord, this.name);
+		user.setCart(this.cart);
 		return user;
 	}
 
-	public void setUserCode(int userCode) {
-		this.userCode = userCode;
-	}
 
 	public void setCart(Cart cart) {
 		this.cart = cart;
@@ -45,9 +41,5 @@ public class User {
 
 	public String getId() {
 		return id;
-	}
-
-	public int getUserCode() {
-		return userCode;
 	}
 }

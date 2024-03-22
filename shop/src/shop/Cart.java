@@ -17,12 +17,8 @@ public class Cart {
 		return list.size();
 	}
 
-	public ArrayList<Item> getItemList() {
-		ArrayList<Item> temp = new ArrayList<>();
-		for (Item item : list)
-			temp.add(item.clone());
-		return temp;
-		
+	public ArrayList<Item> getList() {//임시
+		return list;
 	}
 
 	@Override

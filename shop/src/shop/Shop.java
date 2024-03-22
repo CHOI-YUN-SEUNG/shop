@@ -1,6 +1,5 @@
 package shop;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Shop {
@@ -296,7 +295,7 @@ public class Shop {
 		}
 	}
 
-	private void shoppingBuy() {
+	private void shoppingBuy() { //장바구니의 카운트도 세서 처리해야함...
 		int code = inputNumber("구매할 상품코드");
 		int count = inputNumber("구매할 개수");
 		Item want = itemManager.findItemByCode(code);
@@ -311,10 +310,7 @@ public class Shop {
 		System.out.println(want);
 
 		Cart cart = new Cart();
-		if (user.getCart().getItemList() == null) {
-			
-		}
-		cart.getItemList().add(want);
+		cart.getList().add(want);
 		System.out.println(cart);
 		user.setCart(cart);
 		System.out.println(user);

@@ -28,14 +28,14 @@ public class ItemManager {
 		int code = 0;
 		while (true) {
 			code = random.nextInt(9000) + 1000;
-			Item item = findItemCode(code);
+			Item item = findItemByCode(code);
 			if (item.getItemCode() == 0)
 				break;
 		}
 		return code;
 	}
 
-	private Item findItemCode(int code) {
+	public Item findItemByCode(int code) {
 		for (Item item : itemList) {
 			if (item.getItemCode() == code)
 				return item.clone();

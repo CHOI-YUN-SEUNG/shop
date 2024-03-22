@@ -24,7 +24,6 @@ public class UserManager {
 		return new User();
 	}
 
-
 	public User findUserByUserID(String id) {
 		for (User user : userlist) {
 			if (user.getId().equals(id))
@@ -45,6 +44,19 @@ public class UserManager {
 
 	}
 
+	public boolean deleteUser(User user) {
+		String userId = user.getId();
+		User targetUser = getUserById(userId);
+		return userlist.remove(targetUser);
+	}
+
+	private User getUserById(String Id) {// 원본 수정
+		for (User user : userlist) {
+			if (user.getId() == Id)
+				return user;
+		}
+		return new User();
+	}
 
 	public int getUserSize() {
 		return userlist.size();

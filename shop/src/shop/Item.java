@@ -6,18 +6,19 @@ public class Item {
 	private String itemName;
 	private int price;
 
-	Item(){
-		
+	Item() {
+
 	}
-	
+
 	public Item(int itemCode, String itemName, int itemCount, int price) {
+		this.itemCode = itemCode;
 		this.itemName = itemName;
 		this.itemCount = itemCount;
 		this.price = price;
 	}
 
 	public Item clone() {
-		Item item = new Item(this.itemCode,this.itemName, this.itemCount, this.price);
+		Item item = new Item(this.itemCode, this.itemName, this.itemCount, this.price);
 		return item;
 	}
 
@@ -31,10 +32,6 @@ public class Item {
 
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
 	}
 
 	public int getItemCode() {

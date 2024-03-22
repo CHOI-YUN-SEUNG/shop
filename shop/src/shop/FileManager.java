@@ -25,7 +25,7 @@ public class FileManager {
 		return instance;
 	}
 
-	private void lodeData() {
+	private void loadData() {
 		if (file.exists()) {
 			String data = "";
 			try {
@@ -46,7 +46,6 @@ public class FileManager {
 				System.err.println("파일 로드 실패");
 			}
 		}
-
 	}
 
 	private void parseLoadData(String data) {
@@ -55,7 +54,6 @@ public class FileManager {
 
 	private void saveData() {
 		String data = "";
-
 		try {
 			fileWriter = new FileWriter(file);
 			System.out.println("파일 저장 성공");

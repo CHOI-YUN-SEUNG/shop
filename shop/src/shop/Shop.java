@@ -1,5 +1,6 @@
 package shop;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Shop {
@@ -8,6 +9,7 @@ public class Shop {
 	private FileManager fileManager = FileManager.getInstance();
 	private Scanner scanner = new Scanner(System.in);
 
+	private boolean isSubRun;
 	private int total;
 	private int log = -1;
 	private final int ADMIN = 0;
@@ -31,8 +33,9 @@ public class Shop {
 	private final int ITEM_UPDATE_NAME = 1;
 	private final int ITEM_UPDATE_COUNT = 2;
 
-	public void run() {
+	private final int SHOPPING_BUY = 1;
 
+	public void run() {
 		while (true) {
 			printStatusForCheck();
 			printMenu();
@@ -275,10 +278,46 @@ public class Shop {
 	}
 
 	private void shopping() {
-		for (int i = 0; i < itemManager.getitemListSize(); i++) {
+		for (int i = 0; i < itemManager.getitemListSize(); i++)
 			System.out.println(itemManager.getItemList().get(i));
+		this.isSubRun = true;
+		while (this.isSubRun) {
+			printShoppingMenu();
+			int select = inputNumber("[MENU]");
+			processShoppingSubMenu(select);
 		}
-		printShoppingMenu();
+	}
+
+	private void processShoppingSubMenu(int select) {
+		if (select == SHOPPING_BUY) {
+			shoppingBuy();
+		} else if (select == BACK) {
+			this.isSubRun = false;
+		}
+	}
+
+	private void shoppingBuy() {
+		int code = inputNumber("구매할 상품코드");
+		int count = inputNumber("구매할 개수");
+		Item want = itemManager.findItemByCode(code);
+
+		if (want.getItemCount() < count) {
+			System.err.println("개수초과");
+			return;
+		}
+
+		User user = userManager.findUserByIndex(log);
+		want.setItemCount(count);
+		System.out.println(want);
+
+		Cart cart = new Cart();
+		if (user.getCart().getItemList() == null) {
+			
+		}
+		cart.getItemList().add(want);
+		System.out.println(cart);
+		user.setCart(cart);
+		System.out.println(user);
 	}
 
 	private void mypage() {

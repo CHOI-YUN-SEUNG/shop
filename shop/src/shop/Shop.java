@@ -144,7 +144,7 @@ public class Shop {
 	private void leave() {
 
 	}
-
+ 
 	private void login() {
 
 	}

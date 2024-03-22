@@ -40,8 +40,10 @@ public class UserManager {
 		return new User();
 	}
 
-	public void updateUserCart() {// 임시
-
+	public void updateUserCart(User user, Cart cart) {
+		String id = user.getId();
+		User targetUser = getUserById(id);
+		targetUser.setCart(cart);
 	}
 
 	public boolean deleteUser(User user) {
@@ -50,7 +52,7 @@ public class UserManager {
 		return userlist.remove(targetUser);
 	}
 
-	private User getUserById(String Id) {// 원본 수정
+	private User getUserById(String Id) {
 		for (User user : userlist) {
 			if (user.getId() == Id)
 				return user;

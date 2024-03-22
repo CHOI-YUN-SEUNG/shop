@@ -43,20 +43,18 @@ public class ItemManager {
 		return new Item();
 	}
 
-
 	public void updateItemCount(Item item, int count) {
 		int code = item.getItemCode();
 		Item targetItem = getItemByCode(code);
 		targetItem.setItemCount(count);
 	}
-	
-	
+
 	public void updateItemName(Item item, String name) {
 		int code = item.getItemCode();
 		Item targetItem = getItemByCode(code);
 		targetItem.setItemName(name);
 	}
-	
+
 	public boolean deleteItem(Item item) {
 		int code = item.getItemCode();
 		Item targetItem = getItemByCode(code);
@@ -70,7 +68,7 @@ public class ItemManager {
 		}
 		return new Item();
 	}
-	
+
 	public int getitemListSize() {
 		return itemList.size();
 	}

@@ -2,11 +2,12 @@ package shop;
 
 import java.util.ArrayList;
 
+
 public class UserManager {
-	private ArrayList<User> userlist;
+	private ArrayList<User> userList;
 
 	private UserManager() {
-		userlist = new ArrayList<>();
+		userList = new ArrayList<>();
 	}
 
 	private static UserManager instance = new UserManager();
@@ -18,14 +19,14 @@ public class UserManager {
 	public User createUser(String id, String passWord, String name) {
 		if (checkId(id)) {
 			User user = new User(id, passWord, name);
-			userlist.add(user);
+			userList.add(user);
 			return user.clone();
 		}
 		return new User();
 	}
 
 	private boolean checkId(String id) {
-		for (User user : userlist) {
+		for (User user : userList) {
 			if (user.getId().equals(id))
 				return false;
 		}
@@ -33,7 +34,7 @@ public class UserManager {
 	}
 
 	public User findUserByUserID(String id) {
-		for (User user : userlist) {
+		for (User user : userList) {
 			if (user.getId().equals(id))
 				return user.clone();
 		}
@@ -41,7 +42,7 @@ public class UserManager {
 	}
 
 	public User findUserByUserPW(String passWord) {
-		for (User user : userlist) {
+		for (User user : userList) {
 			if (user.getPassWord().equals(passWord))
 				return user.clone();
 		}
@@ -57,11 +58,11 @@ public class UserManager {
 	public boolean deleteUser(User user) {
 		String userId = user.getId();
 		User targetUser = getUserById(userId);
-		return userlist.remove(targetUser);
+		return userList.remove(targetUser);
 	}
 
 	private User getUserById(String Id) {
-		for (User user : userlist) {
+		for (User user : userList) {
 			if (user.getId() == Id)
 				return user;
 		}
@@ -69,6 +70,11 @@ public class UserManager {
 	}
 
 	public int getUserSize() {
-		return userlist.size();
+		return userList.size();
 	}
+
+	public User findUserByIndex(int index) {
+		return userList.get(index).clone();
+	}
+
 }
